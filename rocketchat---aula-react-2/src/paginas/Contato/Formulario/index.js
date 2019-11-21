@@ -1,5 +1,8 @@
 import React from 'react'
-import Grupo from './Grupo'
+import Grupo from './componentes/Grupo'
+import Botao from './componentes/Botao'
+
+
 
 class Formulario extends React.Component {
     constructor(props) {
@@ -34,7 +37,30 @@ class Formulario extends React.Component {
         })
     }
 
+    estadoDesabilitado = () => {
+        return (
+            !this.state.nome.valor ||
+            this.state.nome.erro ||
+            !this.state.email.valor ||
+            this.state.email.erro ||
+            !this.state.pais.valor ||
+            this.state.pais.erro
+            
+        )
+    }
+
+    handleSubmit = () => {
+        const novoContato = {
+            nome: this.state.nome.valor,
+            email: this.state.email.valor,
+            pais: this.state.pais.valor,
+            mensagem: this.state.mensagem.valor
+        }
+        console.log(novoContato, 'enviou')
+    }
+
     render() {
+        const verificaBotao = this.estadoDesabilitado() //true or false
         return (
             
             <div className='pagina'>
@@ -81,6 +107,16 @@ class Formulario extends React.Component {
                 type='text'
                 />
                 </Grupo>
+                <Botao
+                desabilitado={verificaBotao}
+                mudaConteudo={this.props.mudaConteudo}
+                pagina='sucesso'
+                type='submit'
+                
+                >
+                    Enviar
+                </Botao>
+                {/* <input type='submit' /> */}
             </form>
             </div>
                 
